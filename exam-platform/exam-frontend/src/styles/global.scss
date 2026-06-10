@@ -1,0 +1,386 @@
+/* ================================================================
+   全局样式 — 教师培训在线考试平台
+   设计风格：现代简约 + 清新蓝白配
+   ================================================================ */
+
+/* CSS 变量：品牌色、布局尺寸、阴影 */
+:root {
+  /* 主色调 */
+  --color-primary: #409EFF;
+  --color-primary-light: #ECF5FF;
+  --color-primary-dark: #337ECC;
+  
+  /* 功能色 */
+  --color-success: #67C23A;
+  --color-success-light: #F0F9EB;
+  --color-warning: #E6A23C;
+  --color-warning-light: #FDF6EC;
+  --color-danger: #F56C6C;
+  --color-danger-light: #FEF0F0;
+  --color-info: #909399;
+  --color-info-light: #F4F4F5;
+  
+  /* 文字色 */
+  --text-primary: #303133;
+  --text-regular: #606266;
+  --text-secondary: #909399;
+  --text-placeholder: #C0C4CC;
+  
+  /* 边框色 */
+  --border-color: #DCDFE6;
+  --border-color-light: #E4E7ED;
+  --border-color-lighter: #EBEEF5;
+  --border-color-extra-light: #F2F6FC;
+  
+  /* 背景色 */
+  --bg-color: #F5F7FA;
+  --bg-color-page: #F0F2F5;
+  --bg-color-card: #FFFFFF;
+  
+  /* 布局尺寸 */
+  --sidebar-width: 220px;
+  --sidebar-collapsed-width: 64px;
+  --header-height: 56px;
+  
+  /* 阴影 */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  
+  /* 圆角 */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  
+  /* 过渡动画 */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+/* 全局盒模型 */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', sans-serif;
+  font-size: 14px;
+  color: var(--text-primary);
+  background-color: var(--bg-color-page);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#app {
+  height: 100%;
+}
+
+/* 链接样式 */
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-primary-dark);
+  text-decoration: none;
+}
+
+/* 滚动条美化 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+  transition: background var(--transition-fast);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* 选择文本样式 */
+::selection {
+  background: var(--color-primary-light);
+  color: var(--color-primary-dark);
+}
+
+/* Element Plus 主题覆盖 */
+:root {
+  --el-color-primary: var(--color-primary);
+  --el-color-primary-light-3: #79BBFF;
+  --el-color-primary-light-5: #A0CFFF;
+  --el-color-primary-light-7: #C6E2FF;
+  --el-color-primary-light-8: #D9ECFF;
+  --el-color-primary-light-9: #ECF5FF;
+  --el-color-primary-dark-2: #337ECC;
+  
+  --el-color-success: var(--color-success);
+  --el-color-warning: var(--color-warning);
+  --el-color-danger: var(--color-danger);
+  --el-color-info: var(--color-info);
+  
+  --el-bg-color: var(--bg-color-card);
+  --el-bg-color-page: var(--bg-color-page);
+  
+  --el-text-color-primary: var(--text-primary);
+  --el-text-color-regular: var(--text-regular);
+  --el-text-color-secondary: var(--text-secondary);
+  --el-text-color-placeholder: var(--text-placeholder);
+  
+  --el-border-color: var(--border-color);
+  --el-border-color-light: var(--border-color-light);
+  --el-border-color-lighter: var(--border-color-lighter);
+  --el-border-color-extra-light: var(--border-color-extra-light);
+  
+  --el-border-radius-base: var(--radius-sm);
+  --el-border-radius-small: var(--radius-sm);
+  --el-border-radius-round: var(--radius-md);
+  
+  --el-box-shadow: var(--shadow-md);
+  --el-box-shadow-light: var(--shadow-sm);
+}
+
+/* 通用页面容器样式 */
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* 通用页面头部样式 */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.page-header h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* 通用卡片样式 */
+.el-card {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color-lighter);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition-normal);
+}
+
+.el-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* 通用表格样式 */
+.el-table {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.el-table th.el-table__cell {
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* 通用按钮样式 */
+.el-button {
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  transition: all var(--transition-fast);
+}
+
+.el-button--primary {
+  box-shadow: 0 2px 4px rgba(64, 158, 255, 0.3);
+}
+
+.el-button--primary:hover {
+  box-shadow: 0 4px 8px rgba(64, 158, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+/* 通用表单样式 */
+.el-form-item__label {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* 通用标签样式 */
+.el-tag {
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+}
+
+/* 通用分页样式 */
+.el-pagination {
+  margin-top: 20px;
+  justify-content: flex-end;
+}
+
+/* 通用空状态样式 */
+.el-empty {
+  padding: 60px 0;
+}
+
+/* 通用加载状态 */
+.el-loading-mask {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* 通用对话框样式 */
+.el-dialog {
+  border-radius: var(--radius-lg);
+}
+
+/* 答题页选项对齐覆盖 — 居左对齐 + 自动换行 */
+.option-group {
+  align-items: stretch !important;
+}
+.option-group .el-radio,
+.option-group .el-checkbox {
+  display: flex !important;
+  align-items: flex-start !important;
+  height: auto !important;
+  min-height: 44px;
+  margin-right: 0 !important;
+  white-space: normal !important;
+}
+
+.option-group .el-radio__input,
+.option-group .el-checkbox__input {
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.option-group .el-radio__label,
+.option-group .el-checkbox__label {
+  flex: 1;
+  text-align: left !important;
+  white-space: normal !important;
+  line-height: 1.7 !important;
+  word-break: break-word;
+  padding-left: 10px !important;
+}
+
+.option-group .el-checkbox,
+.option-group .el-radio__inner,
+.option-group .el-checkbox__inner {
+  vertical-align: top;
+}
+
+.el-dialog__header {
+  border-bottom: 1px solid var(--border-color-lighter);
+  padding: 20px 24px;
+  margin: 0;
+}
+
+.el-dialog__body {
+  padding: 24px;
+}
+
+.el-dialog__footer {
+  border-top: 1px solid var(--border-color-lighter);
+  padding: 16px 24px;
+}
+
+/* 通用消息框样式 */
+.el-message-box {
+  border-radius: var(--radius-lg);
+}
+
+/* 通用通知样式 */
+.el-notification {
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+}
+
+/* 响应式工具类 */
+.hidden-sm-and-down {
+  display: none;
+}
+
+.hidden-md-and-up {
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .hidden-sm-and-down {
+    display: block;
+  }
+  .hidden-md-and-up {
+    display: none;
+  }
+}
+
+/* 文本工具类 */
+.text-primary {
+  color: var(--text-primary);
+}
+
+.text-regular {
+  color: var(--text-regular);
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.font-bold {
+  font-weight: 600;
+}
+
+/* 间距工具类 */
+.mb-8 {
+  margin-bottom: 8px;
+}
+
+.mb-16 {
+  margin-bottom: 16px;
+}
+
+.mb-24 {
+  margin-bottom: 24px;
+}
+
+.mt-16 {
+  margin-top: 16px;
+}
+
+.mt-24 {
+  margin-top: 24px;
+}
+
+.p-16 {
+  padding: 16px;
+}
+
+.p-24 {
+  padding: 24px;
+}

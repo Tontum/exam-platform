@@ -1,0 +1,2 @@
+SET NAMES utf8mb4;
+SELECT project_id, COUNT(*) as cnt FROM config WHERE project_id IN (2062779682925215746, 2062781695058669570) GROUP BY project_id;

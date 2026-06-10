@@ -1,0 +1,157 @@
+# ================================================================
+# 教师培训在线考试平台 — Docker Compose 本地开发基础设施
+# 一键启动所有中间件：MySQL、Redis、Kafka、Elasticsearch、Canal
+# 使用方式：docker-compose up -d
+# ================================================================
+
+services:
+  # ======================== MySQL 8.0 ========================
+  mysql:
+    image: mysql:8.0.35
+    container_name: exam-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root123456
+      MYSQL_DATABASE: exam_platform
+      TZ: Asia/Shanghai
+    ports:
+      - "13306:3306"
+    volumes:
+      # 数据持久化
+      - mysql-data:/var/lib/mysql
+      # 初始化 SQL 脚本（首次启动时自动执行）
+      - ./sql/init:/docker-entrypoint-initdb.d
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --init-connect=SET NAMES utf8mb4
+      - --max_connections=500
+      - --binlog-format=ROW        # Canal 需要 ROW 格式 binlog
+      - --server-id=1
+      - --log-bin=mysql-bin
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ======================== Redis 7.2 ========================
+  redis:
+    image: redis:7.2-alpine
+    container_name: exam-redis
+    restart: unless-stopped
+    ports:
+      - "16379:6379"
+    volumes:
+      - redis-data:/data
+    command:
+      - redis-server
+      - --appendonly yes             # 开启 AOF 持久化
+      - --maxmemory 512mb            # 最大内存
+      - --maxmemory-policy allkeys-lru  # 内存淘汰策略
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ======================== Kafka 3.6 ========================
+  # Kafka 依赖 Zookeeper（KRaft 模式下可省略，此处保持传统模式）
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.3
+    container_name: exam-zookeeper
+    restart: unless-stopped
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.3
+    container_name: exam-kafka
+    restart: unless-stopped
+    depends_on:
+      - zookeeper
+    ports:
+      - "19092:19092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      # 内外网访问配置
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:19092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:19092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      # 自动创建 topic（开发环境）
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    healthcheck:
+      test: ["CMD", "kafka-broker-api-versions", "--bootstrap-server", "localhost:9092"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+
+  # ======================== Elasticsearch 7.17 ========================
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.20
+    container_name: exam-elasticsearch
+    restart: unless-stopped
+    environment:
+      - discovery.type=single-node      # 单节点模式（开发环境）
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m  # 限制堆内存
+      - xpack.security.enabled=false    # 关闭安全认证（开发环境）
+      - "TZ=Asia/Shanghai"
+    ports:
+      - "19200:9200"
+      - "19300:9300"
+    volumes:
+      - es-data:/usr/share/elasticsearch/data
+      - es-plugins:/usr/share/elasticsearch/plugins
+    # 安装 IK 中文分词插件
+    command: >
+      bash -c "
+        elasticsearch-plugin list | grep -q analysis-ik ||
+        elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.17.20/elasticsearch-analysis-ik-7.17.20.zip;
+        /usr/local/bin/docker-entrypoint.sh
+      "
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9200/_cluster/health"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+
+  # ======================== Canal 1.1（MySQL → Kafka → ES） ========================
+  canal:
+    image: canal/canal-server:v1.1.7
+    container_name: exam-canal
+    restart: unless-stopped
+    depends_on:
+      - mysql
+      - kafka
+    ports:
+      - "11111:11111"
+    environment:
+      # Canal 连接 MySQL 的配置
+      CANAL_DESTINATIONS: exam
+      CANAL_SERVER_MODE: kafka             # 直接投递到 Kafka
+      CANAL_MQ_SERVERS: kafka:9092
+      CANAL_INSTANCE_MASTER_ADDRESS: mysql:3306
+      CANAL_INSTANCE_DB_USERNAME: root
+      CANAL_INSTANCE_DB_PASSWORD: root123456
+      CANAL_INSTANCE_CONNECTION_CHARSET: UTF-8
+      CANAL_INSTANCE_FILTER_REGEX: exam_platform\\..*   # 监听 exam_platform 库所有表
+    volumes:
+      - canal-logs:/home/admin/canal-server/logs
+
+# ======================== 数据卷 ========================
+volumes:
+  mysql-data:
+    driver: local
+  redis-data:
+    driver: local
+  es-data:
+    driver: local
+  es-plugins:
+    driver: local
+  canal-logs:
+    driver: local

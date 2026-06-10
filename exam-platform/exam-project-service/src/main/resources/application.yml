@@ -1,0 +1,46 @@
+# ======================== 项目服务配置 ========================
+server:
+  port: 8087
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+spring:
+  application:
+    name: exam-project-service
+  datasource:
+    url: jdbc:mysql://localhost:13306/exam_platform?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false
+    username: root
+    password: root123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+  data:
+    redis:
+      host: localhost
+      port: 16379
+      password:
+      database: 0
+      timeout: 3000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+
+# MyBatis-Plus 配置
+mybatis-plus:
+  # 实体类扫描包路径
+  type-aliases-package: com.exam.common.entity
+  configuration:
+    # 驼峰命名转换
+    map-underscore-to-camel-case: true
+    # SQL 日志
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      # 逻辑删除字段
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0

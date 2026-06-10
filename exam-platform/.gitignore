@@ -1,0 +1,30 @@
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Maven
+target/
+*.jar
+*.war
+*.class
+
+# Node
+node_modules/
+dist/
+.env
+.env.local
+
+# Docker
+docker/mysql/data/
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test output
+surefire-reports/

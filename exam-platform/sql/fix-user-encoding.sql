@@ -1,0 +1,14 @@
+SET NAMES utf8mb4;
+UPDATE user SET real_name = '系统管理员' WHERE id = 1;
+UPDATE user SET real_name = '李校长', school = '郑州一中' WHERE id = 2;
+UPDATE user SET real_name = '张老师', school = '郑州一中' WHERE id = 3;
+UPDATE user SET real_name = '王老师', school = '郑州二中' WHERE id = 4;
+UPDATE user SET real_name = '赵老师', school = '洛阳一高' WHERE id = 5;
+UPDATE user SET real_name = '刘老师', school = '洛阳一高' WHERE id = 6;
+UPDATE user SET real_name = '陈老师', school = '开封高中' WHERE id = 7;
+UPDATE user SET real_name = '杨老师', school = '开封高中' WHERE id = 8;
+UPDATE user SET real_name = '黄老师', school = '新乡一中' WHERE id = 9;
+UPDATE user SET real_name = '周老师', school = '新乡一中' WHERE id = 10;
+UPDATE user SET real_name = '吴老师', school = '安阳一中' WHERE id = 11;
+UPDATE user SET real_name = '孙老师', school = '安阳一中' WHERE id = 12;
+SELECT id, real_name, school FROM user;

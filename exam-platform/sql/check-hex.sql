@@ -1,0 +1,2 @@
+SET NAMES utf8mb4;
+SELECT id, name, HEX(name) as name_hex FROM project WHERE id IN (2062779682925215746, 2062781695058669570);

@@ -1,0 +1,10 @@
+SET NAMES utf8mb4;
+UPDATE tool SET tool_name = '试题工具', description = '试卷发布、答题、批阅' WHERE id = 1;
+UPDATE tool SET tool_name = '文章工具', description = '文章发布、评论、问卷' WHERE id = 2;
+UPDATE tool SET tool_name = '交流工具', description = '讨论区/论坛' WHERE id = 3;
+UPDATE tool SET tool_name = '问答工具', description = '类似知乎的问答系统' WHERE id = 4;
+UPDATE tool SET tool_name = '作业工具', description = '作业布置与提交' WHERE id = 5;
+UPDATE tool SET tool_name = '直播工具', description = '在线直播培训' WHERE id = 6;
+UPDATE tool SET tool_name = '视频工具', description = '录播视频观看' WHERE id = 7;
+UPDATE tool SET tool_name = '统计工具', description = '分数统计与数据分析' WHERE id = 8;
+SELECT id, tool_name FROM tool;
