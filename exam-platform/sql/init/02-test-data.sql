@@ -14,15 +14,15 @@ USE exam_platform;
 -- =================================================================
 -- 一、补充更多用户（不同层级方便测试层级筛选）
 -- =================================================================
-INSERT IGNORE INTO `user` (`id`, `username`, `password`, `real_name`, `role`, `province`, `city`, `county`, `school`) VALUES
-(7,  'teacher5',  'e10adc3949ba59abbe56e057f20f883e', '刘老师', 3, '河南省', '郑州市', '金水区',  '郑州一中'),
-(8,  'teacher6',  'e10adc3949ba59abbe56e057f20f883e', '陈老师', 3, '河南省', '郑州市', '中原区',  '郑州二中'),
-(9,  'teacher7',  'e10adc3949ba59abbe56e057f20f883e', '杨老师', 3, '河南省', '洛阳市', '洛龙区',  '洛阳一高'),
-(10, 'teacher8',  'e10adc3949ba59abbe56e057f20f883e', '黄老师', 3, '河南省', '开封市', '龙亭区',  '开封一中'),
-(11, 'teacher9',  'e10adc3949ba59abbe56e057f20f883e', '周老师', 3, '河南省', '新乡市', '红旗区',  '新乡一中'),
-(12, 'teacher10', 'e10adc3949ba59abbe56e057f20f883e', '吴老师', 3, '河南省', '郑州市', '二七区',  '郑州三中'),
-(13, 'principal2','e10adc3949ba59abbe56e057f20f883e', '王校长', 2, '河南省', '洛阳市', '洛龙区',  '洛阳一高'),
-(14, 'principal3','e10adc3949ba59abbe56e057f20f883e', '张校长', 2, '河南省', '开封市', '龙亭区',  '开封一中');
+INSERT IGNORE INTO `user` (`id`, `username`, `password`, `real_name`, `role`, `school_id`) VALUES
+(7,  'teacher5',  'e10adc3949ba59abbe56e057f20f883e', '刘老师', 3, 51),
+(8,  'teacher6',  'e10adc3949ba59abbe56e057f20f883e', '陈老师', 3, 52),
+(9,  'teacher7',  'e10adc3949ba59abbe56e057f20f883e', '杨老师', 3, 54),
+(10, 'teacher8',  'e10adc3949ba59abbe56e057f20f883e', '黄老师', 3, 56),
+(11, 'teacher9',  'e10adc3949ba59abbe56e057f20f883e', '周老师', 3, 57),
+(12, 'teacher10', 'e10adc3949ba59abbe56e057f20f883e', '吴老师', 3, 52),
+(13, 'principal2','e10adc3949ba59abbe56e057f20f883e', '王校长', 2, 54),
+(14, 'principal3','e10adc3949ba59abbe56e057f20f883e', '张校长', 2, 56);
 
 -- =================================================================
 -- 二、补充项目-用户关联
